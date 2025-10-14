@@ -17,7 +17,8 @@ def load_get_variables_module():
     )
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
-    spec.loader.exec_module(module)  # type: ignore[call-arg]
+    with patch.dict(sys.modules, {"actions_toolkit": MagicMock()}):
+        spec.loader.exec_module(module)  # type: ignore[call-arg]
     return module
 
 
@@ -74,6 +75,12 @@ class GetVariablesTestCase(unittest.TestCase):
                 "rolling",
                 "--platform",
                 "linux/amd64",
+                "--source",
+                "https://github.com/althack/dockerfiles",
+                "--revision",
+                "abc123",
+                "--created",
+                "2026-10-23T17:00:00Z",
                 "--ghcr-owner",
                 "GhUser",
                 "--docker-username",
@@ -100,6 +107,40 @@ class GetVariablesTestCase(unittest.TestCase):
         set_lines = outputs["set_lines"]
         self.assertIn("ghcr.io/ghuser/ros2", set_lines)
         self.assertIn("docker.io/dockeruser/ros2", set_lines)
+        self.assertIn(
+            "ros2-rolling-base.labels.org.opencontainers.image.description="
+            "ROS 2 rolling base image",
+            set_lines,
+        )
+        self.assertIn(
+            "ros2-rolling-dev.labels.org.opencontainers.image.description="
+            "ROS 2 rolling developer image",
+            set_lines,
+        )
+        self.assertIn(
+            "ros2-rolling-base.labels.org.opencontainers.image.source="
+            "https://github.com/althack/dockerfiles",
+            set_lines,
+        )
+        self.assertIn(
+            "ros2-rolling-base.labels.org.opencontainers.image.revision=abc123",
+            set_lines,
+        )
+        self.assertIn(
+            "ros2-rolling-base.labels.org.opencontainers.image.created="
+            "2026-10-23T17:00:00Z",
+            set_lines,
+        )
+
+    def test_image_description_formats_known_names(self):
+        self.assertEqual(
+            self.module.image_description("ros2", "humble", "dev"),
+            "ROS 2 humble developer image",
+        )
+        self.assertEqual(
+            self.module.image_description("gz", "harmonic", "nvidia"),
+            "GZ harmonic NVIDIA image",
+        )
 
     def test_main_sets_exists_false_when_targets_missing(self):
         self._write_templates(

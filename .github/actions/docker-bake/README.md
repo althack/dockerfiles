@@ -1,11 +1,13 @@
 # Docker Bake Composite Action
 
-Builds per-platform images from `templates.yml` using `docker buildx bake`, uploads the resulting metadata, and exposes the release identifiers for follow-up jobs.
+Builds per-platform images from `templates.yml` using `docker buildx bake`, adds OCI source and target metadata, uploads the resulting build metadata, and exposes the release identifiers for follow-up jobs.
 
 ## What It Does
 - Detects (or accepts) the target platform and computes bake variables for the requested `family` and `distro`.
 - Authenticates to Docker Hub and/or GHCR when credentials are supplied.
-- Runs `docker/bake-action@v6` to build or push the image targets.
+- Runs `docker/bake-action` to build or push the image targets.
+- Labels each image with its description, source repository, revision, and
+  creation time.
 - Reuses BuildKit cache from GHCR when credentials are provided (while still priming the GitHub Actions cache as a fallback).
   - Registry cache export is enabled only when `push=true`.
   - GHA cache behavior is configurable via `gha-cache`:

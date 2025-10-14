@@ -72,6 +72,7 @@ runs:
         echo "ghcr_owner=$ghcr_owner" >> "$GITHUB_OUTPUT"
         echo "family=${family,,}" >> "$GITHUB_OUTPUT"
         echo "distro=${distro,,}" >> "$GITHUB_OUTPUT"
+        echo "created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
 
     - name: Login to Docker Hub
       if: ${{ inputs.docker-username && inputs.docker-password }}
@@ -121,6 +122,9 @@ runs:
              --family "${{ inputs.family }}"
              --distro "${{ inputs.distro }}"
              --platform "${{ steps.detect.outputs.platform }}"
+             --source "${{ github.server_url }}/${{ github.repository }}"
+             --revision "${{ github.sha }}"
+             --created "${{ steps.refs.outputs.created }}"
              ${{ inputs.ghcr-password && format('--ghcr-owner "{0}"', steps.refs.outputs.ghcr_owner) || '' }}
              ${{ inputs.docker-password && format('--docker-username "{0}"', inputs.docker-username) || '' }}
              ${{ inputs.push == 'true' && '--digest' || '' }}
