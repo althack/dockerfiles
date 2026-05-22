@@ -113,6 +113,7 @@
       "options": [
         "ros2-rolling",
         "ros2-rolling-cuda",
+        "ros2-lyrical",
         "ros2-kilted",
         "ros2-jazzy",
         "ros2-jazzy-cuda",
