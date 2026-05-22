@@ -3,7 +3,7 @@ name: Bug report
 about: 'Create a report to help improve '
 title: ''
 labels: bug
-assignees: athackst
+assignees: althack
 
 ---
 

@@ -38,10 +38,10 @@ def generate_dockerfiles(eol: bool = False):
 
 
 def generate_readmes():
-    """Generate the readme files."""
+    """Generate readmes including EOL entries for reference."""
     file_loader = FileSystemLoader("template")
     env = Environment(loader=file_loader)
-    repositories = templates.group_by("family").keys()
+    repositories = templates.group_by("family", eol=True).keys()
     for repository in repositories:
         dockerfiles = templates.entries(family=repository, eol=True)
         dockerfiles_for_readme = []
