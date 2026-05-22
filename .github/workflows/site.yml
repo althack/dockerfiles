@@ -6,32 +6,40 @@ name: Site
 on:
   push:
     branches: [main]
+  pull_request:
   release:
     types: [published]
+  workflow_dispatch:
 
 concurrency:
-  group: gh-pages-site
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('gh-pages-site-pr-{0}', github.event.pull_request.number) || 'gh-pages-site' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  site-main:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+  build-site:
     permissions:
-      contents: write
-      pages: write
-      id-token: write
+      contents: read
     uses: athackst/ci/.github/workflows/mkdocs_site.yml@main
-    with:
-      pages: true
-    secrets: inherit
 
-  site-release:
-    if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+  test-site:
+    needs: build-site
+    permissions:
+      contents: read
+    uses: athackst/ci/.github/workflows/htmlproofer_site.yml@main
+    with:
+      host: ${{ needs.build-site.outputs.host }}
+      base-path: ${{ needs.build-site.outputs.base-path }}
+      artifact-name: ${{ needs.build-site.outputs.artifact-name }}
+
+  deploy-site:
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+    needs: build-site
     permissions:
       contents: write
       pages: write
       id-token: write
-    uses: athackst/ci/.github/workflows/mkdocs_site.yml@main
+    uses: athackst/ci/.github/workflows/deploy_site.yml@main
     with:
-      pages: true
+      type: action
+      version: ${{ needs.build-site.outputs.version }}
     secrets: inherit

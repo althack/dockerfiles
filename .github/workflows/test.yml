@@ -51,14 +51,6 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_*.py'
 
-  test-site:
-    permissions:
-      contents: read
-    uses: athackst/ci/.github/workflows/mkdocs_site.yml@main
-    with:
-      pages: false
-    secrets: inherit
-
   targets:
     runs-on: ubuntu-latest
     outputs:
@@ -197,7 +189,6 @@ jobs:
     needs:
       - lint
       - unit-test
-      - test-site
       - merge-manifests
     if: ${{ always() && !cancelled() && needs.merge-manifests.result != 'cancelled' }}
     runs-on: ubuntu-latest
@@ -210,10 +201,6 @@ jobs:
           fi
           if [ "${{ needs.unit-test.result }}" != 'success' ]; then
             echo "Action tests failed"
-            exit 1
-          fi
-          if [ "${{ needs.test-site.result }}" != 'success' ]; then
-            echo "Site tests failed"
             exit 1
           fi
           if [ "${{ needs.merge-manifests.result }}" != 'skipped' ] && \
