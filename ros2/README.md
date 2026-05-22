@@ -22,14 +22,6 @@ rolling
 * [rolling-full](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
 * [rolling-gazebo](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
 
-rolling-cuda
-  
-* [rolling-cuda-base](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-dev](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-desktop](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-full](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-gazebo](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-
 lyrical
   
 * [lyrical-base](https://github.com/althack/dockerfiles/blob/main/ros2/lyrical.Dockerfile)
