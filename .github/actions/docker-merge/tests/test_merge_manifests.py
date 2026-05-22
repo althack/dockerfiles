@@ -163,7 +163,7 @@ class MergeManifestsTestCase(unittest.TestCase):
             "--metadata-list",
             str(metadata_path),
             "--gh-owner",
-            "athackst",
+            "althack",
             "--dry-run",
         ]
         with patch("sys.argv", argv), patch.dict(

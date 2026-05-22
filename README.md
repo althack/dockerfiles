@@ -1,7 +1,7 @@
 # dockerfiles
 
-[![Documentation](https://github.com/athackst/dockerfiles/actions/workflows/site.yml/badge.svg)](https://github.com/athackst/dockerfiles/actions/workflows/site.yml)
-[![Dockerfiles](https://github.com/athackst/dockerfiles/actions/workflows/docker.yml/badge.svg)](https://github.com/athackst/dockerfiles/actions/workflows/docker.yml)
+[![Documentation](https://github.com/althack/dockerfiles/actions/workflows/site.yml/badge.svg)](https://github.com/althack/dockerfiles/actions/workflows/site.yml)
+[![Dockerfiles](https://github.com/althack/dockerfiles/actions/workflows/docker.yml/badge.svg)](https://github.com/althack/dockerfiles/actions/workflows/docker.yml)
 
 These are multi-stage docker images I use for developing with [VSCode](https://code.visualstudio.com/).
 
@@ -83,13 +83,13 @@ You can install the template accessor package in another repo without publishing
 Install from GitHub:
 
 ```bash
-pip install "git+https://github.com/athackst/dockerfiles.git"
+pip install "git+https://github.com/althack/dockerfiles.git"
 ```
 
 Pin to a branch/tag/commit:
 
 ```bash
-pip install "git+https://github.com/athackst/dockerfiles.git@main"
+pip install "git+https://github.com/althack/dockerfiles.git@main"
 ```
 
 For local development (editable install):
