@@ -71,10 +71,6 @@ dockerfiles:
         platforms: ["linux/amd64", "linux/arm64"]
       - target: dev
         platforms: ["linux/amd64"]
-      - target: full
-        platforms: ["linux/amd64"]
-      - target: gazebo
-        platforms: ["linux/amd64"]
     base_image: "ubuntu:24.04"
   - family: "ros2"
     name: lyrical

@@ -18,8 +18,6 @@ rolling
   
 * [rolling-base](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
 * [rolling-dev](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
-* [rolling-full](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
-* [rolling-gazebo](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
 
 lyrical
   
