@@ -77,7 +77,7 @@ dockerfiles:
         platforms: ["linux/amd64"]
       - target: gazebo
         platforms: ["linux/amd64"]
-    base_image: "ubuntu:26.04"
+    base_image: "ubuntu:24.04"
   - family: "ros2"
     name: lyrical
     distro: lyrical
