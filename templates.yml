@@ -71,19 +71,13 @@ dockerfiles:
         platforms: ["linux/amd64", "linux/arm64"]
       - target: dev
         platforms: ["linux/amd64"]
-      - target: desktop
-        platforms: ["linux/amd64"]
-      - target: full
-        platforms: ["linux/amd64"]
-      - target: gazebo
-        platforms: ["linux/amd64"]
     base_image: "ubuntu:24.04"
   - family: "ros2"
-    name: rolling-cuda
-    distro: rolling
+    name: lyrical
+    distro: lyrical
     targets:
       - target: base
-        platforms: ["linux/amd64"]
+        platforms: ["linux/amd64", "linux/arm64"]
       - target: dev
         platforms: ["linux/amd64"]
       - target: desktop
@@ -92,7 +86,8 @@ dockerfiles:
         platforms: ["linux/amd64"]
       - target: gazebo
         platforms: ["linux/amd64"]
-    base_image: "nvidia/cuda:13.0.1-cudnn-runtime-ubuntu24.04"
+    base_image: "ubuntu:26.04"
+    eol: "2031-05-31"
   - family: "ros2"
     name: kilted
     distro: kilted

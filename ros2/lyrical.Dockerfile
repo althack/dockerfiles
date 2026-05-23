@@ -5,7 +5,7 @@
 ###########################################
 # Base image
 ###########################################
-FROM nvidia/cuda:13.0.1-cudnn-runtime-ubuntu24.04 AS base
+FROM ubuntu:26.04 AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -48,11 +48,11 @@ RUN add-apt-repository universe \
   && rm -f /tmp/ros2-apt-source.deb \
   && rm -rf /var/lib/apt/lists/*
 
-ENV ROS_DISTRO=jazzy
+ENV ROS_DISTRO=lyrical
 
 # Install ROS2
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-jazzy-ros-base \
+    ros-lyrical-ros-base \
     python3-argcomplete \
     python3-rosdep \
   && rm -rf /var/lib/apt/lists/*
@@ -81,24 +81,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends git-core bash-c
   && echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/$USERNAME/.bashrc \
   && echo "if [ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ]; then source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash; fi" >> /home/$USERNAME/.bashrc \
   && rm -rf /var/lib/apt/lists/*
-
-################
-# Expose the nvidia driver to allow opengl
-# Dependencies for glvnd and X11.
-################
-RUN apt-get update \
- && apt-get install -y -qq --no-install-recommends \
-  libglvnd0 \
-  libgl1 \
-  libglx0 \
-  libegl1 \
-  libxext6 \
-  libx11-6
-
-# Env vars for the nvidia-container-runtime.
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute
-ENV QT_X11_NO_MITSHM=1
 ENV DEBIAN_FRONTEND=
 
 # setup entrypoint
@@ -122,7 +104,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python3-argcomplete \
   python3-pip \
   ros-dev-tools \
-  ros-jazzy-ament-* \
+  ros-lyrical-ament-* \
   vim \
   && rm -rf /var/lib/apt/lists/*
 
@@ -139,7 +121,7 @@ FROM dev AS desktop
 ENV DEBIAN_FRONTEND=noninteractive
 # Install the desktop release
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  ros-jazzy-desktop \
+  ros-lyrical-desktop \
   && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=
 
@@ -151,7 +133,7 @@ FROM desktop AS full
 ENV DEBIAN_FRONTEND=noninteractive
 # Install the desktop release
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  ros-jazzy-desktop-full \
+  ros-lyrical-desktop-full \
   && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=
 
@@ -166,7 +148,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
   && apt-get update && apt-get install -q -y --no-install-recommends \
-    ros-jazzy-ros-gz \
+    ros-lyrical-ros-gz \
   && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=
 

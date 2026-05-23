@@ -18,17 +18,14 @@ rolling
   
 * [rolling-base](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
 * [rolling-dev](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
-* [rolling-desktop](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
-* [rolling-full](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
-* [rolling-gazebo](https://github.com/althack/dockerfiles/blob/main/ros2/rolling.Dockerfile)
 
-rolling-cuda
+lyrical
   
-* [rolling-cuda-base](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-dev](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-desktop](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-full](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
-* [rolling-cuda-gazebo](https://github.com/althack/dockerfiles/blob/main/ros2/rolling-cuda.Dockerfile)
+* [lyrical-base](https://github.com/althack/dockerfiles/blob/main/ros2/lyrical.Dockerfile)
+* [lyrical-dev](https://github.com/althack/dockerfiles/blob/main/ros2/lyrical.Dockerfile)
+* [lyrical-desktop](https://github.com/althack/dockerfiles/blob/main/ros2/lyrical.Dockerfile)
+* [lyrical-full](https://github.com/althack/dockerfiles/blob/main/ros2/lyrical.Dockerfile)
+* [lyrical-gazebo](https://github.com/althack/dockerfiles/blob/main/ros2/lyrical.Dockerfile)
 
 kilted
   
