@@ -6,7 +6,7 @@ certifi==2026.5.20
 cffi==2.0.0
 charset-normalizer==3.4.7
 click==8.4.1
-cryptography==48.0.0
+cryptography==48.0.1
 flake8==7.3.0
 idna==3.18
 Jinja2==3.1.6
@@ -34,7 +34,7 @@ rpds-py==0.30.0
 ruamel.yaml==0.19.1
 ruamel.yaml.clib==0.2.15
 shellingham==1.5.4
-tqdm==4.68.1
+tqdm==4.68.2
 typer==0.25.1
 typing-inspection==0.4.2
 typing_extensions==4.15.0
