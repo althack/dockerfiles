@@ -26,7 +26,7 @@ jobs:
       dockerhub-rate-source-before: ${{ steps.dockerhub_rate_before.outputs.source }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Docker Hub rate limit (before)
         id: dockerhub_rate_before
         env:
@@ -107,7 +107,7 @@ jobs:
         include: ${{ fromJSON(needs.targets.outputs.amd64) }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Build via composite action
         uses: ./.github/actions/docker-bake
@@ -129,7 +129,7 @@ jobs:
         include: ${{ fromJSON(needs.targets.outputs.arm64) }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Build via composite action
         uses: ./.github/actions/docker-bake
@@ -156,7 +156,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set current date
         id: date
