@@ -12,13 +12,9 @@ on:
 
 jobs:
   setup-labels:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      
-      - name: Setup labels
-        id: setup-labels
-        uses: athackst/ci/actions/setup-labels@main
-        with:
-          github-token: ${{ secrets.CI_BOT_TOKEN || github.token }}
-          configuration-path: .github/ci-config.yml
+    permissions:
+      contents: read
+      issues: write
+    uses: athackst/ci/.github/workflows/setup_labeler.yml@main
+    secrets:
+      token: ${{ secrets.CI_BOT_TOKEN }}
