@@ -3,8 +3,8 @@ annotated-doc==0.0.4
 annotated-types==0.7.0
 attrs==26.1.0
 certifi==2026.6.17
-cffi==2.0.0
-charset-normalizer==3.4.7
+cffi==2.1.0
+charset-normalizer==3.4.8
 click==8.4.2
 cryptography==49.0.0
 flake8==7.3.0
