@@ -1,4 +1,4 @@
-# This file is generated from athackst/ci/template/.github/ci-config.yml.jinja.
+# This file is generated from athackst/ci/copier/template/.github/ci-config.yml.jinja.
 # Do not edit directly; update the template instead.
 
 name-template: "Release v$RESOLVED_VERSION"
@@ -9,53 +9,58 @@ template: |
   $CHANGES
 
 categories:
+  - type: pre-exclude
+    when:
+      label: skip-changelog
   - title: ':zap: Breaking'
-    labels:
-      - 'breaking'
-      - 'major'
+    exclusive: true
+    semver-increment: major
+    when:
+      labels:
+        - 'breaking'
+        - 'major'
   - title: ':rocket: New'
-    labels:
-      - 'feature'
-      - 'enhancement'
+    exclusive: true
+    semver-increment: minor
+    when:
+      labels:
+        - 'feature'
+        - 'enhancement'
   - title: ':bug: Bug Fixes'
-    labels:
-      - 'bug'
-      - 'fix'
+    exclusive: true
+    semver-increment: patch
+    when:
+      labels:
+        - 'bug'
+        - 'fix'
   - title: ':toolbox: Maintenance'
-    labels:
-      - 'maintenance'
-      - 'devops'
+    exclusive: true
+    semver-increment: patch
+    when:
+      labels:
+        - 'maintenance'
+        - 'devops'
   - title: ':memo: Documentation'
-    labels:
-      - 'docs'
-      - 'documentation'
+    exclusive: true
+    semver-increment: patch
+    when:
+      labels:
+        - 'docs'
+        - 'documentation'
   - title: 'Dependency Updates'
-    label: 'dependencies'
+    exclusive: true
+    semver-increment: patch
     collapse-after: 3
-
-exclude-labels:
-  - 'skip-changelog'
-
-version-resolver:
-  major:
-    labels:
-      - 'breaking'
-      - 'major'
-  minor:
-    labels:
-      - 'feature'
-      - 'minor'
-      - 'enhancement'
-  patch:
-    labels:
-      - 'bug'
-      - 'fix'
-      - 'maintenance'
-      - 'docs'
-      - 'documentation'
-      - 'devops'
-      - 'dependencies'
-      - 'security'
+    when:
+      label: dependencies
+  - type: version-resolver
+    semver-increment: minor
+    when:
+      label: minor
+  - type: version-resolver
+    semver-increment: patch
+    when:
+      label: security
 
 labels:
   breaking:
