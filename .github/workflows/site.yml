@@ -1,4 +1,4 @@
-# This file is generated from athackst/ci/template/.github/workflows/site.yml.jinja.
+# This file is generated from athackst/ci/copier/template/.github/workflows/site.yml.jinja.
 # Do not edit directly; update the template instead.
 
 name: Site
