@@ -34,7 +34,7 @@ rpds-py==0.30.0
 ruamel.yaml==0.19.1
 ruamel.yaml.clib==0.2.15
 shellingham==1.5.4
-tqdm==4.68.4
+tqdm==4.69.0
 typer==0.27.0
 typing-inspection==0.4.2
 typing_extensions==4.16.0
