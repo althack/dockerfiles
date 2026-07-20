@@ -18,8 +18,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      # Required for maintaining the CI Updater failure issue.
-      issues: write
       # Required in this environment to allow PRs that modify .github/workflows/*.
       actions: write
     uses: athackst/ci/.github/workflows/ci_updater.yml@main
