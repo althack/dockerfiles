@@ -1385,7 +1385,7 @@ group "ros2-iron-cuda-linux-amd64" { targets = [ "ros2-iron-cuda-base", "ros2-ir
 
 
 group "ros2-humble-linux-amd64" { targets = [ "ros2-humble-base", "ros2-humble-dev", "ros2-humble-desktop", "ros2-humble-full", "ros2-humble-gazebo" ] }
-group "ros2-humble-linux-arm64" { targets = [ "ros2-humble-base", "ros2-humble-dev", "ros2-humble-desktop", "ros2-humble-full" ] }
+group "ros2-humble-linux-arm64" { targets = [ "ros2-humble-base", "ros2-humble-dev", "ros2-humble-desktop" ] }
 
 
 group "ros2-humble-cuda-linux-amd64" { targets = [ "ros2-humble-cuda-base", "ros2-humble-cuda-dev", "ros2-humble-cuda-desktop", "ros2-humble-cuda-full", "ros2-humble-cuda-gazebo" ] }
