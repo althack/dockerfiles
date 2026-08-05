@@ -25,7 +25,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install -r requirements.txt",
+	"postCreateCommand": "python -m pip install -e '.[scripts,dev]'",
 
 	// Configure tool-specific properties.
 	// "customizations": {},

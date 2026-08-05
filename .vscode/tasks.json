@@ -95,13 +95,13 @@
     {
       "label": "upgrade",
       "type": "shell",
-      "command": " pip install --upgrade pip; for i in $(pip list -o | awk 'NR > 2 {print $1}'); do pip install -U $i; done && pip freeze > requirements.txt",
+      "command": "python -m pip install --upgrade pip && python -m pip install --upgrade -e '.[scripts,dev]'",
       "problemMatcher": []
     },
     {
       "label": "install",
       "type": "shell",
-      "command": "pip3 install -r requirements.txt",
+      "command": "python -m pip install -e '.[scripts,dev]'",
       "problemMatcher": []
     }
   ],

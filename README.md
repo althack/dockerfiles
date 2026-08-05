@@ -95,7 +95,7 @@ pip install "git+https://github.com/althack/dockerfiles.git@main"
 For local development (editable install):
 
 ```bash
-pip install -e .
+pip install -e ".[scripts,dev]"
 ```
 
 Example usage:
