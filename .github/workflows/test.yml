@@ -18,16 +18,16 @@ jobs:
         with:
           python-version: 3.x
           cache: "pip"
+          cache-dependency-path: pyproject.toml
       - name: Install pip packages
         run: |
           python -m pip install --upgrade pip
+          pip install -e ".[dev]"
       - name: flake8
         run: |
-          pip install flake8
           flake8 .
       - name: pydocstyle
         run: |
-          pip install pydocstyle
           pydocstyle .
 
   unit-test:
@@ -40,11 +40,12 @@ jobs:
         with:
           python-version: 3.x
           cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Run action unit tests
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -e ".[scripts]"
           python -m unittest discover -s .github/actions -p 'test_*.py'
 
       - name: Run API unit tests

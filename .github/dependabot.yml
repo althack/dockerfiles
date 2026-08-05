@@ -12,13 +12,12 @@ updates:
           - "*"
     open-pull-requests-limit: 10
   - package-ecosystem: pip
-    directory: "/"
+    directories:
+      - "/"
+      - "/.github/actions/**"
     schedule:
       interval: daily
     groups:
-      pydantic-deps:
-        patterns:
-          - "pydantic*"
       python-deps:
         patterns:
           - "*"

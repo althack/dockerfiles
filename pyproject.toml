@@ -17,6 +17,17 @@ dependencies = [
   "jsonschema>=4.0.0"
 ]
 
+[project.optional-dependencies]
+scripts = [
+  "actions-toolkit>=0.1.15",
+  "click>=8.1",
+  "Jinja2>=3.1"
+]
+dev = [
+  "flake8>=7.3",
+  "pydocstyle>=6.3"
+]
+
 [project.urls]
 Homepage = "https://github.com/althack/dockerfiles"
 Repository = "https://github.com/althack/dockerfiles"
