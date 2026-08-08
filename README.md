@@ -3,54 +3,53 @@
 [![Documentation](https://github.com/althack/dockerfiles/actions/workflows/site.yml/badge.svg)](https://github.com/althack/dockerfiles/actions/workflows/site.yml)
 [![Dockerfiles](https://github.com/althack/dockerfiles/actions/workflows/docker.yml/badge.svg)](https://github.com/althack/dockerfiles/actions/workflows/docker.yml)
 
-These are multi-stage docker images I use for developing with [VSCode](https://code.visualstudio.com/).
+These are Docker images and runtime examples I use for ROS and Gazebo development.
 
-See [how I develop with vscode and docker](https://www.allisonthackston.com/articles/docker_development.html).
+The images are built and published automatically, including multi-platform builds where supported. Images will continue to be supported as long as the underlying ROS or Gazebo release has not reached EOL.
 
-Instructions on how to duplicate my IDE:
+For VS Code development, I now recommend using my [ROS 2 Dev Container Feature](https://github.com/althack/devcontainers) with the [VSCode ROS2 Workspace Template](https://github.com/althack/vscode_ros2_workspace).
 
-* [vscode, docker, and ros2](https://www.allisonthackston.com/articles/vscode_docker_ros2.html)
+## Images
 
-Images will continue to be supported so long as they haven't reached EOL
+The currently maintained image families are available on Docker Hub:
 
-* **Ignition/Gazebo** https://gazebosim.org/docs/all/releases
-* **Gazebo (classic)** https://classic.gazebosim.org/#status
-* **ROS** https://wiki.ros.org/Distributions
-* **ROS2** https://docs.ros.org/en/rolling/Releases.html
+- [althack/ros2](https://hub.docker.com/r/althack/ros2)
+- [althack/gz](https://hub.docker.com/r/althack/gz)
 
-## Quick start
+Older ROS, Gazebo Classic, and Ignition images are still available for historical releases.
 
-Grab the docker image from [docker hub](https://hub.docker.com/u/althack).  This repo provides the images in:
+## Running GUI applications
 
-* [althack/ros](https://hub.docker.com/r/althack/ros)
-* [althack/ros2](https://hub.docker.com/r/althack/ros2)
-* [althack/gazebo](https://hub.docker.com/r/althack/gazebo)
-* [althack/igntion](https://hub.docker.com/r/althack/ignition)
-* [althack/gz](https://hub.docker.com/r/althack/gz)
+Just running a Docker image is usually not enough to launch GUI applications like RViz or Gazebo. They also need access to things like the display server, networking, and sometimes GPU resources.
 
-Then, set up a [vscode workspace](https://github.com/athackst/vscode_ros2_workspace).
+This repo includes Docker Compose examples for those use cases:
+
+- [RViz](docker-compose/rviz)
+- [Gazebo](docker-compose/gz)
+
+See the [Docker Compose documentation](docker-compose/README.md) for setup and usage.
 
 ## Build from source
 
-Alternatively, you can build all the docker images directly from source.
+You can build all currently supported images directly from source:
 
 ```bash
 ./build.py all
 ```
 
-Or just build one
+Or just build one:
 
 ```bash
 ./build.py ros2-jazzy-base
 ```
 
-Or build one distro group
+Or build one distro group:
 
 ```bash
 ./build.py ros2-jazzy
 ```
 
-To see help information and build options
+To see help information and build options:
 
 ```bash
 ./build.py --help
@@ -78,7 +77,7 @@ eval "$(_BUILD_PY_COMPLETE=bash_source /path/to/dockerfiles/build.py)"
 
 ## Template accessor package
 
-You can install the template accessor package in another repo without publishing to PyPI.
+You can install the template accessor package in another repo without publishing it to PyPI.
 
 Install from GitHub:
 
@@ -86,13 +85,13 @@ Install from GitHub:
 pip install "git+https://github.com/althack/dockerfiles.git"
 ```
 
-Pin to a branch/tag/commit:
+Pin to a branch, tag, or commit:
 
 ```bash
 pip install "git+https://github.com/althack/dockerfiles.git@main"
 ```
 
-For local development (editable install):
+For local development:
 
 ```bash
 pip install -e ".[scripts,dev]"
