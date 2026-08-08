@@ -22,10 +22,7 @@ Older ROS, Gazebo Classic, and Ignition images are still available for historica
 
 Just running a Docker image is usually not enough to launch GUI applications like RViz or Gazebo. They also need access to things like the display server, networking, and sometimes GPU resources.
 
-This repo includes Docker Compose examples for those use cases:
-
-- [RViz](docker-compose/rviz)
-- [Gazebo](docker-compose/gz)
+This repo includes Docker Compose configurations for running RViz and Gazebo with the required runtime configuration.
 
 See the [Docker Compose documentation](docker-compose/README.md) for setup and usage.
 
