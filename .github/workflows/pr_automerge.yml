@@ -8,14 +8,14 @@ on:
     types:
       - labeled
       - unlabeled
+      - ready_for_review
 
 concurrency:
   group: "pr-automerge-${{ github.event.pull_request.number || github.ref }}"
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event.action == 'unlabeled' && github.event.label.name == 'automerge' }}
 
 jobs:
   pr-automerge:
-    if: ${{ github.event.pull_request.state == 'open' }}
     permissions:
       contents: write
       pull-requests: write
