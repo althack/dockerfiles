@@ -11,8 +11,10 @@ on:
       - ready_for_review
 
 concurrency:
+  # Queue label bursts so required checks are not left cancelled. Poll mode
+  # rechecks the live PR state and automerge label immediately before merging.
   group: "pr-automerge-${{ github.event.pull_request.number || github.ref }}"
-  cancel-in-progress: ${{ github.event.action == 'unlabeled' && github.event.label.name == 'automerge' }}
+  cancel-in-progress: false
 
 jobs:
   pr-automerge:
