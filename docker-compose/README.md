@@ -1,10 +1,16 @@
 # Docker Compose
 
-This repository includes some docker compose configurations for running the Gazebo simulation environments inside a container with GUI support
+This directory contains Docker Compose examples for running RViz and modern
+Gazebo in containers with GUI support.
+
+These examples assume a Linux host running X11. They bind-mount the host X11
+socket, pass through `DISPLAY` and `XAUTHORITY`, and use host networking. They
+will need additional display configuration on Wayland and are not directly
+portable to Docker Desktop on macOS or Windows.
 
 ## Installation
 
-To use these Docker Compose files, you'll need to have Docker and Docker Compose installed on your system.
+Install Docker Engine and the Docker Compose plugin on your Linux system.
 
 - Install Docker: Follow the official installation guide for your platform:
 <https://docs.docker.com/get-docker/>
@@ -16,41 +22,42 @@ To verify your installation, run:
 
 ```bash
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 ## Usage
 
-Before starting the containers, make sure to allow Docker to access the X server on your host machine by running 
+Before starting a container, allow local Docker containers to access the X
+server:
 
 ```bash
 xhost +local:docker
 ```
 
-The run the docker-compose script for your version
+Then run the example for the application and version you want:
 
 ```bash
-docker-compose -f {{version}}-docker-compose.yml up
+docker compose -f <rviz-or-gz>/<version>-docker-compose.yml up
 ```
 
-=== "harmonic"
+For example, launch Gazebo Harmonic:
 
-    ```bash
-    docker-compose -f harmonic-docker-compose.yml up
-    ```
+```bash
+docker compose -f gz/harmonic-docker-compose.yml up
+```
 
-=== "ionic"
+Or launch RViz with ROS 2 Jazzy:
 
-    ```bash
-    docker-compose -f ionic-docker-compose.yml up
-    ```
+```bash
+docker compose -f rviz/jazzy-docker-compose.yml up
+```
 
 ## Notes
 
-- Both Docker Compose files use host networking (network_mode: host) to simplify GUI display setup.
+- The Compose files use host networking (`network_mode: host`) to simplify GUI display setup.
 
 - GUI support is enabled by sharing the X11 socket and setting appropriate environment variables (`DISPLAY`, `XAUTHORITY`).
 
 - Software rendering is enforced (`LIBGL_ALWAYS_SOFTWARE=1`) for compatibility.
 
-- The containers will launch `gz sim` as the default command.
+- Examples under `gz/` launch `gz sim`; examples under `rviz/` launch RViz 2.
