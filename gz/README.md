@@ -24,12 +24,12 @@ jetty-cuda
 * [jetty-cuda-base](https://github.com/althack/dockerfiles/blob/main/gz/jetty-cuda.Dockerfile)
 * [jetty-cuda-dev](https://github.com/althack/dockerfiles/blob/main/gz/jetty-cuda.Dockerfile)
 
-ionic
+ionic (eol)
   
 * [ionic-base](https://github.com/althack/dockerfiles/blob/main/gz/ionic.Dockerfile)
 * [ionic-dev](https://github.com/althack/dockerfiles/blob/main/gz/ionic.Dockerfile)
 
-ionic-cuda
+ionic-cuda (eol)
   
 * [ionic-cuda-base](https://github.com/althack/dockerfiles/blob/main/gz/ionic-cuda.Dockerfile)
 * [ionic-cuda-dev](https://github.com/althack/dockerfiles/blob/main/gz/ionic-cuda.Dockerfile)
