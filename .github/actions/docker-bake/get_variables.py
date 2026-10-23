@@ -23,7 +23,7 @@ GitHub Actions outputs (via actions_toolkit.core.set_output):
   release:        Parent name (e.g. "ros2-rolling").
   stages:         JSON array of stage ids (["base", "dev", ...]).
   stage_targets:  JSON array of full target names (["ros2-rolling-base", ...]).
-  set_lines:      Newline-joined Bake `--set` directives for outputs.
+  set_lines:      Newline-joined Bake `--set` directives for outputs and labels.
 """  # noqa:E501
 
 from __future__ import annotations
@@ -44,6 +44,28 @@ from dockerfiles_templates import (  # noqa: E402
     canonical_platform,
     parse_platform,
 )
+
+
+FAMILY_NAMES = {
+    "gazebo": "Gazebo",
+    "gz": "GZ",
+    "ignition": "Ignition",
+    "ros": "ROS",
+    "ros2": "ROS 2",
+}
+
+STAGE_NAMES = {
+    "dev": "developer",
+    "nvidia": "NVIDIA",
+    "gazebo-nvidia": "Gazebo NVIDIA",
+}
+
+
+def image_description(family: str, distro: str, stage: str) -> str:
+    """Returns a human-readable description for an image target."""
+    family_name = FAMILY_NAMES.get(family.lower(), family.upper())
+    stage_name = STAGE_NAMES.get(stage.lower(), stage.replace("-", " "))
+    return f"{family_name} {distro} {stage_name} image"
 
 
 def norm_platform(p: str) -> str:
@@ -100,6 +122,21 @@ def main() -> int:
         action="store_true",
         help="Emit Bake --set lines that push-by-digest for each stage.",
     )
+    parser.add_argument(
+        "--source",
+        default="",
+        help="Source repository URL for OCI image labels.",
+    )
+    parser.add_argument(
+        "--revision",
+        default="",
+        help="Source revision for OCI image labels.",
+    )
+    parser.add_argument(
+        "--created",
+        default="",
+        help="RFC 3339 creation time for OCI image labels.",
+    )
     args = parser.parse_args()
 
     platform = canonical_platform(args.platform)  # e.g., "linux/arm/v7"
@@ -136,6 +173,18 @@ def main() -> int:
         stages.append(stage)
         tname = f"{release}-{stage}"
         stage_targets.append(tname)
+
+        labels = {
+            "org.opencontainers.image.description": image_description(
+                normalized_family, args.distro, stage
+            ),
+            "org.opencontainers.image.source": args.source,
+            "org.opencontainers.image.revision": args.revision,
+            "org.opencontainers.image.created": args.created,
+        }
+        for name, value in labels.items():
+            if value:
+                set_lines.append(f"{tname}.labels.{name}={value}")
 
         destinations: list[str] = []
         if normalized_ghcr_owner:
