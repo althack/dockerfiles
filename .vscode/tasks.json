@@ -118,11 +118,8 @@
         "ros2-jazzy-cuda",
         "ros2-humble",
         "ros2-humble-cuda",
-        "ignition-fortress",
         "gz-jetty",
         "gz-jetty-cuda",
-        "gz-ionic",
-        "gz-ionic-cuda",
         "gz-harmonic",
         "gz-harmonic-cuda"
       ],

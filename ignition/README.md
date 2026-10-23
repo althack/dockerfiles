@@ -14,7 +14,7 @@ docker pull althack/ignition:fortress-base
 The main docker image tags are:
 
 
-fortress
+fortress (eol)
   
 * [fortress-base](https://github.com/althack/dockerfiles/blob/main/ignition/fortress.Dockerfile)
 * [fortress-dev](https://github.com/althack/dockerfiles/blob/main/ignition/fortress.Dockerfile)
