@@ -72,6 +72,42 @@ To make completion persistent for bash, add this to your `~/.bashrc`:
 eval "$(_BUILD_PY_COMPLETE=bash_source /path/to/dockerfiles/build.py)"
 ```
 
+## Developing this repository
+
+You can develop either in the provided development container or in a local
+Python virtual environment.
+
+### Development container
+
+Open the repository in VS Code and run **Dev Containers: Reopen in Container**.
+The container provides Python 3.12 and installs the editable package with its
+`scripts` and `dev` dependencies automatically. A separate virtual environment
+is not needed because the container provides the isolated development
+environment.
+
+After changing the container configuration, run **Dev Containers: Rebuild Container**.
+
+### Local development
+
+Create a repository-local virtual environment and install the development
+dependencies:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[scripts,dev]"
+```
+
+In VS Code, run **Python: Select Interpreter** and choose
+`${workspaceFolder}/.venv/bin/python`. New terminals will activate the selected
+environment automatically.
+
+### Tasks
+
+Use **Tasks: Run Task** to run `test`, `generate`, `build`, or `build target`.
+Run `install` after changing dependencies in `pyproject.toml`; `upgrade` updates
+dependencies to the latest versions allowed by that file.
+
 ## Template accessor package
 
 You can install the template accessor package in another repo without publishing it to PyPI.
