@@ -22,6 +22,7 @@ jobs:
       contents: write
       pull-requests: write
       checks: read
+    cache-mode: read
     uses: athackst/ci/.github/workflows/automerge.yml@main
     with:
       automerge-mode: poll
