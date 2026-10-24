@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    cache-mode: read
     uses: athackst/ci/.github/workflows/labeler.yml@main
     secrets:
       token: ${{ secrets.CI_BOT_TOKEN }}
