@@ -189,8 +189,11 @@ jobs:
           dry-run: ${{ github.ref != 'refs/heads/main' && github.event_name != 'workflow_dispatch' }}
 
   docker:
+    if: ${{ always() }}
     needs:
       - targets
+      - bake-build-amd64
+      - bake-build-arm64
       - merge-manifests
     runs-on: ubuntu-latest
     steps:
@@ -265,5 +268,20 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Check
-        run: echo "Completed successfully!"
+      - name: Check required job results
+        env:
+          NEEDS_RESULTS: ${{ toJSON(needs) }}
+          BUILDS_REQUIRED: ${{ needs.targets.outputs.has_changes == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "$NEEDS_RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          if ! echo "$NEEDS_RESULTS" | jq -e --argjson builds_required "$BUILDS_REQUIRED" '
+            all(to_entries[];
+              .value.result == "success"
+              or (($builds_required | not)
+                and .value.result == "skipped"
+                and (.key == "bake-build-amd64" or .key == "bake-build-arm64" or .key == "merge-manifests")))
+          ' > /dev/null; then
+            echo "::error::A required job failed, was cancelled, or was unexpectedly skipped."
+            exit 1
+          fi
+          echo "All required jobs passed!"

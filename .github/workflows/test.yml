@@ -187,26 +187,30 @@ jobs:
           dry-run: "true"
 
   complete:
+    if: ${{ always() }}
     needs:
       - lint
       - unit-test
+      - targets
+      - bake-build-amd64
+      - bake-build-arm64
       - merge-manifests
-    if: ${{ always() && !cancelled() && needs.merge-manifests.result != 'cancelled' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check
+      - name: Check required job results
+        env:
+          NEEDS_RESULTS: ${{ toJSON(needs) }}
+          BUILDS_REQUIRED: ${{ needs.targets.outputs.has_changes == 'true' }}
         run: |
-          if [ "${{ needs.lint.result }}" != 'success' ]; then
-            echo "Lint failed"
+          echo "$NEEDS_RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          if ! echo "$NEEDS_RESULTS" | jq -e --argjson builds_required "$BUILDS_REQUIRED" '
+            all(to_entries[];
+              .value.result == "success"
+              or (($builds_required | not)
+                and .value.result == "skipped"
+                and (.key == "bake-build-amd64" or .key == "bake-build-arm64" or .key == "merge-manifests")))
+          ' > /dev/null; then
+            echo "::error::A required job failed, was cancelled, or was unexpectedly skipped."
             exit 1
           fi
-          if [ "${{ needs.unit-test.result }}" != 'success' ]; then
-            echo "Action tests failed"
-            exit 1
-          fi
-          if [ "${{ needs.merge-manifests.result }}" != 'skipped' ] && \
-             [ "${{ needs.merge-manifests.result }}" != 'success' ]; then
-            echo "Docker failed"
-            exit 1
-          fi
-          echo "Completed successfully"
+          echo "All required jobs passed!"
