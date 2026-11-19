@@ -12,17 +12,26 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.event_name == 'pull_request' && format('gh-pages-site-pr-{0}', github.event.pull_request.number) || 'gh-pages-site' }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  # Queue whole production runs so older builds cannot publish after newer builds.
+  # PR runs stay independent here; their build and check jobs cancel older PR jobs.
+  group: ${{ github.event_name == 'pull_request' && format('gh-pages-site-pr-run-{0}', github.run_id) || 'gh-pages-site-production' }}
+  cancel-in-progress: false
+  queue: max
 
 jobs:
   build-site:
+    concurrency:
+      group: ${{ github.event_name == 'pull_request' && format('gh-pages-site-build-pr-{0}', github.event.pull_request.number) || format('gh-pages-site-build-{0}', github.run_id) }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     permissions:
       contents: read
       pages: read
     uses: athackst/ci/.github/workflows/mkdocs_site.yml@main
 
   test-site:
+    concurrency:
+      group: ${{ github.event_name == 'pull_request' && format('gh-pages-site-test-pr-{0}', github.event.pull_request.number) || format('gh-pages-site-test-{0}', github.run_id) }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     needs: build-site
     permissions:
       contents: read
@@ -33,7 +42,11 @@ jobs:
       artifact-name: ${{ needs.build-site.outputs.artifact-name }}
 
   deploy-site:
-    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+    if: >-
+      ${{ ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+           github.ref == 'refs/heads/main') ||
+          (github.event_name == 'release' && github.event.action == 'published') }}
+    # HTMLProofer reports failures independently without blocking publication.
     needs: build-site
     permissions:
       contents: write
@@ -41,6 +54,17 @@ jobs:
       id-token: write
     uses: athackst/ci/.github/workflows/deploy_site.yml@main
     with:
-      type: action
       version: ${{ needs.build-site.outputs.version }}
     secrets: inherit
+
+  request-main-deployment:
+    if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+    needs: deploy-site
+    permissions:
+      actions: write # Required to dispatch Site on main after version preparation succeeds.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request deployment from main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run site.yml --repo "$GITHUB_REPOSITORY" --ref main
